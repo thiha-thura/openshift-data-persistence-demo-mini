@@ -1,0 +1,217 @@
+apiVersion: v1
+items:
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: nginx-testing-purpose
+      app.kubernetes.io/component: nginx-testing-purpose
+      app.kubernetes.io/instance: nginx-testing-purpose
+    name: nginx-testing-purpose
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: nginx-testing-purpose:latest
+    postCommit: {}
+    resources: {}
+    source:
+      git:
+        uri: https://github.com/thiha-thura/nginx-testing-purpose.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nginx:1.20-ubi8
+          namespace: openshift
+      type: Source
+    triggers:
+    - github:
+        secret: fiLJz-AbZWOoc9mryz4D
+      type: GitHub
+    - generic:
+        secret: 5WIs0g2ylyC-kz_J07MM
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"nginx-testing-purpose:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"nginx-testing-purpose\")].image"}]'
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: nginx-testing-purpose
+      app.kubernetes.io/component: nginx-testing-purpose
+      app.kubernetes.io/instance: nginx-testing-purpose
+    name: nginx-testing-purpose
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        deployment: nginx-testing-purpose
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          deployment: nginx-testing-purpose
+      spec:
+        containers:
+        - image: ' '
+          name: nginx-testing-purpose
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: nginx-testing-purpose
+      app.kubernetes.io/component: nginx-testing-purpose
+      app.kubernetes.io/instance: nginx-testing-purpose
+    name: nginx-testing-purpose
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      deployment: nginx-testing-purpose
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
+bash-4.4 ~ $ oc new-app nginx~https://github.com/thiha-thura/nginx-testing-purpose.git --dry-run -oyaml > nginx-deployment.yaml
+bash-4.4 ~ $ cat nginx-deployment.yaml 
+warning: Cannot check if git requires authentication.
+apiVersion: v1
+items:
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: nginx-testing-purpose
+      app.kubernetes.io/component: nginx-testing-purpose
+      app.kubernetes.io/instance: nginx-testing-purpose
+    name: nginx-testing-purpose
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: nginx-testing-purpose:latest
+    postCommit: {}
+    resources: {}
+    source:
+      git:
+        uri: https://github.com/thiha-thura/nginx-testing-purpose.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nginx:1.20-ubi8
+          namespace: openshift
+      type: Source
+    triggers:
+    - github:
+        secret: 68b_949DcR4EQOzmawdY
+      type: GitHub
+    - generic:
+        secret: wR59JQ_tgdO28nRdSQQm
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"nginx-testing-purpose:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"nginx-testing-purpose\")].image"}]'
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: nginx-testing-purpose
+      app.kubernetes.io/component: nginx-testing-purpose
+      app.kubernetes.io/instance: nginx-testing-purpose
+    name: nginx-testing-purpose
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        deployment: nginx-testing-purpose
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          deployment: nginx-testing-purpose
+      spec:
+        containers:
+        - image: ' '
+          name: nginx-testing-purpose
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: nginx-testing-purpose
+      app.kubernetes.io/component: nginx-testing-purpose
+      app.kubernetes.io/instance: nginx-testing-purpose
+    name: nginx-testing-purpose
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      deployment: nginx-testing-purpose
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
